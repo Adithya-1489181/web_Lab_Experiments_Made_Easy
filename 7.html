@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JSON/CSV Converter and Hash Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<style>
+body{font-family:Arial;background:#f4f4f4;text-align:center}
+.container{max-width:700px;margin:30px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 0 6px #aaa;text-align:left}
+textarea{width:100%;height:80px;margin:6px 0}
+button{background:#007bff;color:#fff;padding:6px 10px;margin:3px;border:0;border-radius:4px;cursor:pointer}
+button:hover{background:#0056b3}
+#result{margin-top:10px;background:#eee;padding:10px;border-radius:4px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>JSON/CSV Converter and Hash Generator</h1>
+
+<h2>a) Convert JSON to JavaScript Object</h2>
+<textarea id=jso placeholder='Enter JSON here'></textarea>
+<button onclick="run('obj')">Convert to Object</button>
+
+<h2>b) Convert JSON to Date</h2>
+<textarea id=dat placeholder='Enter {"date":"2025-10-28T12:00:00Z"}'></textarea>
+<button onclick="run('date')">Convert to Date</button>
+
+<h2>c) Convert JSON to CSV and CSV to JSON</h2>
+<textarea id=csv placeholder='Enter JSON or CSV here'></textarea>
+<button onclick="run('j2c')">JSON to CSV</button>
+<button onclick="run('c2j')">CSV to JSON</button>
+
+<h2>d) Create Hash from String</h2>
+<textarea id=has placeholder='Enter string to hash'></textarea>
+<button onclick="run('hash')">Generate Hash</button>
+
+<div id=result></div>
+</div>
+
+<script>
+function run(type) {
+  const result = document.getElementById('result');
+  
+  try {
+    // a) Convert JSON to JavaScript Object
+    if (type === 'obj') {
+      result.innerText = 'Converted Object:\n' + JSON.stringify(JSON.parse(jso.value));
+    }
+    
+    // b) Convert JSON to Date
+    else if (type === 'date') {
+      const date = new Date(JSON.parse(dat.value).date);
+      result.innerText = 'Converted Date: ' + date;
+    }
+    
+    // c) JSON to CSV Conversion
+    // Step 1: Parse JSON array
+    // Step 2: Extract keys from first object (these become column headers)
+    // Step 3: Create header row
+    // Step 4: Create data rows by mapping each object to its values
+    else if (type === 'j2c') {
+      const jsonArray = JSON.parse(csv.value);
+      const headers = Object.keys(jsonArray[0]);
+      
+      // Create CSV header row
+      const headerRow = headers.join(',');
+      
+      // Create CSV data rows
+      const dataRows = jsonArray.map(obj => {
+        return headers.map(key => JSON.stringify(obj[key])).join(',');
+      });
+      
+      const csvOutput = [headerRow, ...dataRows].join('\n');
+      result.innerText = 'Converted CSV:\n' + csvOutput;
+    }
+    
+    // CSV to JSON Conversion
+    // Step 1: Split CSV into lines
+    // Step 2: First line becomes keys (headers)
+    // Step 3: Remaining lines become data rows
+    // Step 4: Convert each row into an object using headers as keys
+    else if (type === 'c2j') {
+      const lines = csv.value.split('\n');
+      const headers = lines[0].split(',');
+      const bodyRows = lines.slice(1);
+      const values = bodyRows.map(line => line.split(','));
+      const obj = {};
+      const jsonArray = bodyRows.map(line => {
+        headers.forEach((key, index) => {
+          obj[key] = values[index];
+        });
+        return obj;
+      });
+      
+      result.innerText = 'Converted JSON:\n' + JSON.stringify(jsonArray);
+    }
+    
+    // d) Generate Hash
+    else if (type === 'hash') {
+      const text = has.value;
+      const hash = CryptoJS.SHA256(text);
+      result.innerText = 'Generated Hash (SHA-256):\n' + hash;
+    }
+    
+  } catch (e) {
+    result.innerText = 'Error: ' + e.message;
+  }
+}
+</script>
+</body>
+</html>

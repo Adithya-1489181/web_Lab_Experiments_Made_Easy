@@ -1,0 +1,29 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<style> 
+.box{width:100px;height:100px;background:#3498db;margin:10px} 
+</style> 
+</head> 
+<body> 
+
+<p id="p">This is an existing paragraph. </p> 
+<ul id="l"><li>Item 1</li><li>Item 2</li></ul> 
+<button id="a">Append</button> 
+
+<div id="b1" class="box"></div>
+<button id="an">Animate</button> 
+
+<div id="b2" class="box"></div>
+<button id="c">Animate+Color</button> 
+    
+<script> 
+$(()=>{ 
+    $('#a').click(()=>{$('#p').append('Appended!');$('#l').append('<li>New</li>')}); 
+    $('#an').click(()=>$('#b1').animate({width:'200px',height:'200px'})); 
+    $('#c').click(()=>$('#b2').animate({width:'200px',height:'200px'},{duration:1000,step:(n,f)=>f.prop==='width'&&$(f.elem).css('background',`rgb(52,${n%256},${n%256})`)})); 
+}); 
+</script> 
+</body> 
+</html> 

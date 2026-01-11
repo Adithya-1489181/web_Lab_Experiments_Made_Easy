@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<style> 
+body{
+    font-family:Arial;
+    background:#f4f4f4;
+    padding:20px
+} 
+pre{
+    background:#fff;
+    padding:10px;
+    border-radius:5px;
+} 
+button{
+    margin:5px;
+    padding:8px 12px;
+    background:#4CAF50;
+    color:#fff;
+    border:0;
+    border-radius:4px;
+    cursor:pointer
+} 
+</style> 
+</head> 
+<body> 
+    <h3>a. Ajax without jQuery</h3>
+    <button id="a">Run</button>
+    <pre id="ra"></pre> 
+    <h3>b. Ajax with jQuery</h3>
+    <button id="b">Run</button>
+    <pre id="rb"></pre> 
+    <h3>c. getJSON()</h3>
+    <button id="c">Run</button>
+    <pre id="rc"></pre> 
+    <h3>d. parseJSON()</h3>
+    <button id="d">Run</button>
+    <pre id="rd"></pre> 
+<script> 
+    const data={
+        text:"Sample text from server.",
+        json:{name:"John",age:30,city:"NY"}
+    }; 
+    // a. Without jQuery 
+    a.onclick=()=>setTimeout(()=>ra.textContent=data.text,500); 
+    // b. With jQuery 
+    b.onclick=()=>$.Deferred(d=>setTimeout(()=>d.resolve(data.text),500)).done(r=>$("#rb").text(r)); 
+    // c. getJSON() 
+    c.onclick=()=>$.Deferred(d=>setTimeout(()=>d.resolve(data.json),500)).done(r=>$("#rc").text(JSON.stringify(r))); 
+    // d. parseJSON() 
+    d.onclick=()=>$("#rd").text(JSON.stringify($.parseJSON(JSON.stringify(data.json)))); 
+</script> 
+</body> 
+</html> 
