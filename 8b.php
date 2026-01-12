@@ -50,7 +50,7 @@
         $password = 'Adi1489181';
 
         try {
-            $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+            $pdo = new PDO("mysql:host=$host;dbname=$dbname", "root", $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Fetch student records
