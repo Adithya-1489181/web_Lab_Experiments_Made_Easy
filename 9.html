@@ -21,8 +21,8 @@
 <script> 
 $(()=>{ 
     $('#a').click(()=>{$('#p').append('Appended!');$('#l').append('<li>New</li>')}); 
-    $('#an').click(()=>$('#b1').animate({width:'200px',height:'200px'})); 
-    $('#c').click(()=>$('#b2').animate({width:'200px',height:'200px'},{duration:1000,step:(n,f)=>f.prop==='width'&&$(f.elem).css('background',`rgb(52,${n%256},${n%256})`)})); 
+    $('#an').click(()=>{$('#b1').animate({width:'200px',height:'200px'})}); 
+    $('#c').click(()=>{$('#b2').animate({width:'200px',height:'200px'},{duration:1000,step:(n,f)=>{f.prop==='width'&&$(f.elem).css('background',`rgb(${n%256},52,${n%256})`)}})}); 
 }); 
 </script> 
 </body> 
