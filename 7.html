@@ -84,9 +84,9 @@ function run(type) {
       const lines = csv.value.split('\n');
       const headers = lines[0].split(',');
       const bodyRows = lines.slice(1);
-      const values = bodyRows.map(line => line.split(','));
-      const obj = {};
       const jsonArray = bodyRows.map(line => {
+        const values = line.split(',');
+        const obj = {};
         headers.forEach((key, index) => {
           obj[key] = values[index];
         });
